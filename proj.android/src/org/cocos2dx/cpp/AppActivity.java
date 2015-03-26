@@ -28,12 +28,9 @@ package org.cocos2dx.cpp;
 
 import org.cocos2dx.lib.Cocos2dxActivity;
 import android.content.Intent;
-import android.content.DialogInterface;
-import android.app.AlertDialog;
 import android.provider.MediaStore;
 import android.os.Environment;
 import android.net.Uri;
-import android.app.Activity;
 import android.util.Log;  
 import android.database.Cursor;
 import java.io.File;
