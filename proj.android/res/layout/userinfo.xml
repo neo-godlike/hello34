@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background2"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="45dip"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dip"
+            android:background="@drawable/text_myinfo" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="5dip"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/user_headbd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dip"
+                android:background="@drawable/my_headkuang" >
+
+                <ImageView
+                    android:id="@+id/user_headimage"
+                    android:layout_width="153dip"
+                    android:layout_height="153dip"
+                    android:layout_marginLeft="6dip"
+                    android:layout_marginTop="6dip"
+                    />
+                
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_usernumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dip"
+                android:text="ID:123123123"
+                android:textColor="#FFF" />
+        </LinearLayout>
+
+       
+    </LinearLayout>
+
+</LinearLayout>
