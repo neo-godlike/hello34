@@ -58,7 +58,7 @@ import com.tencent.mm.sdk.openapi.WXAPIFactory;
 public class AppActivity extends Cocos2dxActivity {
     private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
     private static final String APP_ID = "wxee0d07163b63052a";//AppID
-    private static IWXAPI api;//微信API接口
+    public static IWXAPI api;//微信API接口
     private static AppActivity instance;//类静态实例，为了方便后面静态函数的调用
 
 
