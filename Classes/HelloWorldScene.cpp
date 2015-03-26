@@ -274,11 +274,11 @@ void HelloWorld::onScanBarcode(Ref* pSender){
     log("GalleryCamera::callScanbarcode");
 }
 void HelloWorld::onWeChatToFriend(Ref* pSender){
-    WeChatHelper::sendToFriend();
+    WeChatHelper::sendToFriend("老虎队");
     log("WeChatHelper::sendToFriend");
 }
 void HelloWorld::onWeChatToTimeline(Ref* pSender){
-    WeChatHelper::sendToTimeline();
+    WeChatHelper::sendToTimeline("老虎队");
     log("WeChatHelper::sendToTimeline");
 }
 void HelloWorld::menuCloseCallback(Ref* pSender)

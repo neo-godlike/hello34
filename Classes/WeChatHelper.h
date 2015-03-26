@@ -9,8 +9,8 @@
 class WeChatHelper
 {  
 public:  
-    static void sendToFriend();
-    static void sendToTimeline();
+    static void sendToFriend(std::string teamname);
+    static void sendToTimeline(std::string teamname);
 };  
   
 #endif

@@ -90,14 +90,14 @@ public class AppActivity extends Cocos2dxActivity {
         api.registerApp(APP_ID);
     }
 
-    public static void sendMsgToFriend(){
+    public static void sendMsgToFriend(String teamname){
         if(api.openWXApp())
         {
             WXWebpageObject webpage = new WXWebpageObject();
             webpage.webpageUrl = "http://www.desai.com";
             WXMediaMessage msg = new WXMediaMessage(webpage);
             msg.title = "壹德州";
-            msg.description = "我邀请您加入XXX俱乐部";
+            msg.description = "我邀请您加入 "+ teamname +" 俱乐部";
       
             Bitmap thumb = BitmapFactory.decodeResource(instance.getResources(), R.drawable.icon);
             msg.thumbData = Util.bmpToByteArray(thumb, true);
@@ -114,7 +114,7 @@ public class AppActivity extends Cocos2dxActivity {
         }
     }
 
-    public static void sendMsgToTimeLine(){
+    public static void sendMsgToTimeLine(String teamname){
         if(api.openWXApp())
         {
             if(api.getWXAppSupportAPI() >= TIMELINE_SUPPORTED_VERSION)
@@ -123,7 +123,7 @@ public class AppActivity extends Cocos2dxActivity {
                 webpage.webpageUrl = "http://www.desai.com";
                 WXMediaMessage msg = new WXMediaMessage(webpage);
                 msg.title = "壹德州";
-                msg.description = "我邀请您加入XXX俱乐部";
+                msg.description = "我邀请您加入 "+teamname+" 俱乐部";
       
                 Bitmap thumb = BitmapFactory.decodeResource(instance.getResources(), R.drawable.icon);
                 msg.thumbData = Util.bmpToByteArray(thumb, true);

@@ -11,31 +11,33 @@
   
 USING_NS_CC;  
 
-void WeChatHelper::sendToFriend()
+void WeChatHelper::sendToFriend(std::string teamname)
 {
     JniMethodInfo minfo;
     
-    bool isHave = JniHelper::getStaticMethodInfo(minfo,"org/cocos2dx/cpp/AppActivity","sendMsgToFriend", "()V");
+    bool isHave = JniHelper::getStaticMethodInfo(minfo,"org/cocos2dx/cpp/AppActivity","sendMsgToFriend", "(Ljava/lang/String;)V");
     
     if (!isHave) {
         log("jni:sendMsgToFriend is null");
     }else{
+        jstring jStr = minfo.env->NewStringUTF(teamname.c_str());
         //调用此函数
-        minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID);
+        minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID, jStr);
     }
 }
 
-void WeChatHelper::sendToTimeline()
+void WeChatHelper::sendToTimeline(std::string teamname)
 {
     JniMethodInfo minfo;
     
-    bool isHave = JniHelper::getStaticMethodInfo(minfo,"org/cocos2dx/cpp/AppActivity","sendMsgToTimeLine", "()V");
+    bool isHave = JniHelper::getStaticMethodInfo(minfo,"org/cocos2dx/cpp/AppActivity","sendMsgToTimeLine", "(Ljava/lang/String;)V");
     
     if (!isHave) {
         log("jni:sendMsgToTimeLine is null");
     }else{
+        jstring jStr = minfo.env->NewStringUTF(teamname.c_str());
         //调用此函数
-        minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID);
+        minfo.env->CallStaticVoidMethod(minfo.classID, minfo.methodID, jStr);
     }
 }
 
