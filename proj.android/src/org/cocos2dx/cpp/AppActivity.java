@@ -56,6 +56,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 public class AppActivity extends Cocos2dxActivity {
+    private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
     private static final String APP_ID = "wxee0d07163b63052a";//AppID
     private static IWXAPI api;//微信API接口
     private static AppActivity instance;//类静态实例，为了方便后面静态函数的调用
@@ -63,8 +64,8 @@ public class AppActivity extends Cocos2dxActivity {
 
 	private static final int REQUEST_CODE_GETIMAGE_BYSDCARD = 0;// 从sd卡得到图像的请求码
 	private static final int REQUEST_CODE_GETIMAGE_BYCAMERA = 1;// 从相机得到图像的请求码
-	private static final int REQUEST_CODE_SCAN_BARCODE = 2;//
-	private static final int REQUEST_CODE_GET_MOBILE = 3;//
+	private static final int REQUEST_CODE_SCAN_BARCODE = 2;//扫描二维码的请求码
+	private static final int REQUEST_CODE_GET_MOBILE = 3;//从系统获取手机号的请求码
 
 
     @Override  
@@ -116,7 +117,7 @@ public class AppActivity extends Cocos2dxActivity {
     public static void sendMsgToTimeLine(){
         if(api.openWXApp())
         {
-            if(api.getWXAppSupportAPI() >= 0x21020001)
+            if(api.getWXAppSupportAPI() >= TIMELINE_SUPPORTED_VERSION)
             {               
                 WXWebpageObject webpage = new WXWebpageObject();
                 webpage.webpageUrl = "http://www.desai.com";
@@ -171,7 +172,7 @@ public class AppActivity extends Cocos2dxActivity {
         Intent in = new Intent(AppActivity.getContext(),
                 //UserInfoActivity.class);
                 MainActivity.class);
-        AppActivity.getContext().startActivity(in);
+        instance.startActivity(in);
         
         return null;
     }
@@ -181,28 +182,28 @@ public class AppActivity extends Cocos2dxActivity {
         //intent.setType("vnd.android.cursor.item/phone");
         //Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);  
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.CommonDataKinds.Phone.CONTENT_URI);  
-        ((Activity)(AppActivity.getContext())).startActivityForResult(intent,REQUEST_CODE_GET_MOBILE);
+        instance.startActivityForResult(intent,REQUEST_CODE_GET_MOBILE);
     }
 
 
     public static void openImageChoose(){
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        ((Activity)(AppActivity.getContext())).startActivityForResult(intent,REQUEST_CODE_GETIMAGE_BYSDCARD);
+        instance.startActivityForResult(intent,REQUEST_CODE_GETIMAGE_BYSDCARD);
     }
 
 
     public static void openCamera(){
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "temp.jpg")));
-        ((Activity)(AppActivity.getContext())).startActivityForResult(intent, REQUEST_CODE_GETIMAGE_BYCAMERA);
+        instance.startActivityForResult(intent, REQUEST_CODE_GETIMAGE_BYCAMERA);
     }
 
     public static void scanBarcode(){
         Intent intent = new Intent();
         intent.setClass(AppActivity.getContext(), MipcaActivityCapture.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        ((Activity)(AppActivity.getContext())).startActivityForResult(intent, REQUEST_CODE_SCAN_BARCODE);
+        instance.startActivityForResult(intent, REQUEST_CODE_SCAN_BARCODE);
     }
 
 	@Override
