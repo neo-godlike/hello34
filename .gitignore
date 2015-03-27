@@ -4,10 +4,14 @@ bin/
 
 cocos2d/
 
+proj.android/.settings/
 proj.android/bin/
 proj.android/gen/
 proj.android/obj/
 proj.android/assets/
+proj.android/libs/armeabi/libcocos2dcpp.so
+proj.android/local.properties
+proj.android/ant.properties
 
 proj.ios_mac/
 proj.linux/
