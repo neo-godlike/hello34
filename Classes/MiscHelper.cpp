@@ -27,6 +27,6 @@ void MiscHelper::vibrate(long long millisecond)
 }  
 
 #else
-void MiscHelper::vibrate(long millisecond){
+void MiscHelper::vibrate(long long millisecond){
 }
 #endif
