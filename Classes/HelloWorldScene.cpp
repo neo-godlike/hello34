@@ -9,7 +9,9 @@
 #include "WeChatHelper.h"
 
 
+
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 using namespace cocos2d::experimental;
 using namespace cocos2d::ui;
@@ -38,6 +40,28 @@ bool HelloWorld::init()
     {
         return false;
     }
+
+    std::vector<std::string> searchPaths = FileUtils::getInstance()->getSearchPaths();
+    for (int i = 0; i<(int)searchPaths.size(); i++)
+    {
+        log("SEARCH PATH: %s",searchPaths[i].c_str());
+    }
+
+    std::string manifestUrl = "project.manifest";
+    std::string storagePath = FileUtils::getInstance()->getWritablePath() + "HotUpdate/";
+    //std::vector<std::string>::iterator iter = searchPaths.begin();
+    //searchPaths.insert(iter, storagePath);
+    //FileUtils::getInstance()->setSearchPaths(searchPaths);
+    _am = AssetsManagerEx::create(manifestUrl, storagePath);
+    _am->retain();
+
+    log("*****************************************");
+    searchPaths = FileUtils::getInstance()->getSearchPaths();
+    for (int i = 0; i<(int)searchPaths.size(); i++)
+    {
+        log("SEARCH PATH: %s",searchPaths[i].c_str());
+    }
+
     
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -68,9 +92,10 @@ bool HelloWorld::init()
     auto item10 = MenuItemFont::create( "Choose Mobbile", CC_CALLBACK_1(HelloWorld::onChoosePhone, this));
     auto item11 = MenuItemFont::create( "WeChat to Friend", CC_CALLBACK_1(HelloWorld::onWeChatToFriend, this));
     auto item12 = MenuItemFont::create( "WeChat to Timeline", CC_CALLBACK_1(HelloWorld::onWeChatToTimeline, this));
+    auto item13 = MenuItemFont::create( "Update Res", CC_CALLBACK_1(HelloWorld::onUpdateRes, this));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(item1, item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,closeItem, NULL);
+    auto menu = Menu::create(item1, item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,closeItem, NULL);
     //menu->setPosition(Vec2::ZERO);
     menu->alignItemsVertically();
     this->addChild(menu, 1);
@@ -92,19 +117,24 @@ bool HelloWorld::init()
     this->addChild(label, 1);
 
     // add "HelloWorld" splash screen"
-    sprite = Sprite::create("HelloWorld.png");
+    auto welcome_sprite = Sprite::create("HelloWorld.png");
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    sprite->setVisible(false);
+    welcome_sprite->setPosition(Vec2(visibleSize.width/4 + origin.x, visibleSize.height/2 + origin.y));
     // add the sprite as a child to this layer
+    this->addChild(welcome_sprite, 0);
+
+
+    sprite = Sprite::create("speak.png");
+    sprite->setPosition(Vec2(visibleSize.width/4*3 + origin.x, visibleSize.height/2 + origin.y));
+    sprite->setVisible(false);
     this->addChild(sprite, 0);
 
     Button* press_speak = Button::create("press_speak_n.png","press_speak_p.png");
     press_speak->addTouchEventListener(CC_CALLBACK_2(HelloWorld::touchEvent, this));
 
     //auto press_speak = Sprite::create("press_speak.png");
-    press_speak->setPosition(Vec2(visibleSize.width/2 + origin.x, origin.y + press_speak->getContentSize().height));
+    press_speak->setPosition(Vec2(visibleSize.width/4*3 + origin.x, origin.y + press_speak->getContentSize().height));
     this->addChild(press_speak, 0);
 
     auto dispatcher = Director::getInstance()->getEventDispatcher();  
@@ -132,6 +162,82 @@ bool HelloWorld::init()
     
     CCASSERT(AudioEngine::lazyInit(),"Fail to initialize AudioEngine!");
     log("AudioEngine::lazyInit");
+
+
+
+    EventListenerAssetsManagerEx* _amListener = EventListenerAssetsManagerEx::create(_am, [this](EventAssetsManagerEx* event){
+            log("Assets Manager Event %d %s",(int)(event->getEventCode()),event->getMessage().c_str());
+            switch(event->getEventCode())
+            {
+                case EventAssetsManagerEx::EventCode::ERROR_NO_LOCAL_MANIFEST:
+                {
+                    log("ERROR_NO_LOCAL_MANIFEST");
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::ERROR_DOWNLOAD_MANIFEST:
+                {
+                    log("ERROR_DOWNLOAD_MANIFEST");
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::ERROR_PARSE_MANIFEST:
+                {
+                    log("ERROR_PARSE_MANIFEST");
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::NEW_VERSION_FOUND:
+                {
+                    log("NEW_VERSION_FOUND %s",this->_am->getRemoteManifest()->getVersion().c_str());
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::ALREADY_UP_TO_DATE:
+                {
+                    log("ALREADY_UP_TO_DATE");
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::UPDATE_PROGRESSION:
+                {
+                    std::string assetId = event->getAssetId();
+                    float percent = event->getPercent();
+                    log("UPDATE_PROGRESSION %s %f",assetId.c_str(),percent);
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::ASSET_UPDATED:
+                {
+                    log("ASSET_UPDATED %s", event->getAssetId().c_str());
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::ERROR_UPDATING:
+                {
+                    log("ERROR_UPDATING %s", event->getAssetId().c_str());
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::UPDATE_FINISHED:
+                {
+                    log("UPDATE_FINISHED");
+                    auto searchPaths = FileUtils::getInstance()->getSearchPaths();
+                    for (int i = 0; i<(int)searchPaths.size(); i++)
+                    {
+                        log("SEARCH PATH: %s",searchPaths[i].c_str());
+                    }
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::UPDATE_FAILED:
+                {
+                    log("UPDATE_FAILED");
+                    break;
+                }
+                case EventAssetsManagerEx::EventCode::ERROR_DECOMPRESS:
+                {
+                    log("ERROR_DECOMPRESS");
+                    break;
+                }
+                default:
+                    log("err assets manager evnet");
+                    break;
+            }
+    });
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_amListener, 1);
+
 
     return true;
 }
@@ -280,6 +386,17 @@ void HelloWorld::onWeChatToFriend(Ref* pSender){
 void HelloWorld::onWeChatToTimeline(Ref* pSender){
     WeChatHelper::sendToTimeline("老虎队");
     log("WeChatHelper::sendToTimeline");
+}
+void HelloWorld::onUpdateRes(Ref* pSender){
+    if(!_am->getLocalManifest()->isLoaded())
+    {
+        log("get local manifest error.");
+    }
+    else
+    {
+        log("get local manifest ok ver:%s", _am->getLocalManifest()->getVersion().c_str());
+        _am->update();
+    }
 }
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

@@ -1,0 +1,16 @@
+{
+	"packageUrl" : "http://192.168.1.107:8000/hello34/",
+	"remoteManifestUrl" : "http://192.168.1.107:8000/hello34/project.manifest",
+	"remoteVersionUrl" : "http://192.168.1.107:8000/hello34/version.manifest",
+	"version" : "1.0.0",
+	"engineVersion" : "3.4",
+
+	"assets" : {
+		"Images/background1.jpg" : {
+			"md5" : "..."
+		}
+	},
+    
+    "searchPaths" : [
+    ]
+}

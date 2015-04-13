@@ -2,6 +2,7 @@
 #define __HELLOWORLD_SCENE_H__
 
 #include "cocos2d.h"
+#include "extensions/cocos-ext.h"
 #include "ui/CocosGUI.h"
 
 class HelloWorld : public cocos2d::Layer
@@ -9,6 +10,7 @@ class HelloWorld : public cocos2d::Layer
 private:
     cocos2d::LabelTTF* label;
     cocos2d::Sprite* sprite;
+    cocos2d::extension::AssetsManagerEx* _am;
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
@@ -34,6 +36,7 @@ public:
     void onScanBarcode(cocos2d::Ref* pSender);
     void onWeChatToFriend(cocos2d::Ref* pSender);
     void onWeChatToTimeline(cocos2d::Ref* pSender);
+    void onUpdateRes(cocos2d::Ref* pSender);
 
     void touchEvent(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType type);
     
