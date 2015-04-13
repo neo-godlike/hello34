@@ -238,7 +238,26 @@ bool HelloWorld::init()
                     break;
             }
     });
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(_amListener, 1);
+    dispatcher->addEventListenerWithFixedPriority(_amListener, 1);
+
+
+    auto listener = EventListenerKeyboard::create();
+    listener->onKeyReleased =[&](EventKeyboard::KeyCode keyCode, Event* event)
+    {
+        if(keyCode == EventKeyboard::KeyCode::KEY_BACK)
+        {
+            log("***********************BACK CLICKED*******************");
+            setLabel("Back Clicked!!");
+
+        } 
+        else if (keyCode == EventKeyboard::KeyCode::KEY_MENU)     
+        {              
+            log("***********************MENU CLICKED*******************");
+            setLabel("Menu Clicked!!");
+            
+        } 
+    };
+    dispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 
     return true;
@@ -403,6 +422,8 @@ void HelloWorld::onUpdateRes(Ref* pSender){
 void HelloWorld::onVibrate(Ref* pSender){
     MiscHelper::vibrate(1000);
 }
+
+
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
