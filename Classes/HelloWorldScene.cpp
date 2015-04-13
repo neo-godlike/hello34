@@ -7,6 +7,7 @@
 #include "GalleryCamera.h"
 #include "ContractHelper.h"
 #include "WeChatHelper.h"
+#include "MiscHelper.h"
 
 
 
@@ -93,9 +94,10 @@ bool HelloWorld::init()
     auto item11 = MenuItemFont::create( "WeChat to Friend", CC_CALLBACK_1(HelloWorld::onWeChatToFriend, this));
     auto item12 = MenuItemFont::create( "WeChat to Timeline", CC_CALLBACK_1(HelloWorld::onWeChatToTimeline, this));
     auto item13 = MenuItemFont::create( "Update Res", CC_CALLBACK_1(HelloWorld::onUpdateRes, this));
+    auto item14 = MenuItemFont::create( "Vibrate", CC_CALLBACK_1(HelloWorld::onVibrate, this));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(item1, item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,closeItem, NULL);
+    auto menu = Menu::create(item1, item2,item3,item4,item5,item6,item7,item8,item9,item10,item11,item12,item13,item14,closeItem, NULL);
     //menu->setPosition(Vec2::ZERO);
     menu->alignItemsVertically();
     this->addChild(menu, 1);
@@ -397,6 +399,9 @@ void HelloWorld::onUpdateRes(Ref* pSender){
         log("get local manifest ok ver:%s", _am->getLocalManifest()->getVersion().c_str());
         _am->update();
     }
+}
+void HelloWorld::onVibrate(Ref* pSender){
+    MiscHelper::vibrate(1000);
 }
 void HelloWorld::menuCloseCallback(Ref* pSender)
 {

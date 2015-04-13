@@ -37,6 +37,7 @@ public:
     void onWeChatToFriend(cocos2d::Ref* pSender);
     void onWeChatToTimeline(cocos2d::Ref* pSender);
     void onUpdateRes(cocos2d::Ref* pSender);
+    void onVibrate(cocos2d::Ref* pSender);
 
     void touchEvent(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType type);
     

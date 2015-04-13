@@ -18,7 +18,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
                    ../../Classes/AudioRecord.cpp \
                    ../../Classes/GalleryCamera.cpp \
                    ../../Classes/ContractHelper.cpp \
-                   ../../Classes/WeChatHelper.cpp
+                   ../../Classes/WeChatHelper.cpp \
+                   ../../Classes/MiscHelper.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 
